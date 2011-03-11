@@ -5,6 +5,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="index" href="./index.html" />
   <title><%=h mail[:subject] %> (<%= mail[:date].to_s %>)</title>
+  <style>
+    pre {word-wrap: break-word;}
+  </style>
 </head>
 
 <body style="background:#eee">
@@ -16,7 +19,11 @@
 
   <h3>body</h3>
   <div id="source" style="border: solid 1px #666; background:white; padding:2em;">
-    <%= mail[:body] %>
+    <% if mail[:headers].detect{|k,v| k=='Content-Type'}.last.start_with? 'text/plain' %>
+      <pre><%= mail[:body] %></pre>
+    <% else %>
+      <%= mail[:body] %>
+    <% end %>
   </div>
 
 
