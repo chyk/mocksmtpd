@@ -237,7 +237,7 @@ class Mocksmtpd
   end
 
   def recieve_mail(src, sender, recipients)
-    @logger.info "mail recieved from #{sender}"
+    @logger.info "mail received from #{sender}"
 
     mail = parse_mail(src, sender, recipients)
 
