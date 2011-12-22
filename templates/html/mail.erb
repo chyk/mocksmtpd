@@ -7,6 +7,7 @@
   <title><%=h mail[:subject] %> (<%= mail[:date].to_s %>)</title>
   <style>
     pre {word-wrap: break-word;}
+    .part {border: solid 1px #666; background:white; padding:2em; max-width: 800px}
   </style>
 </head>
 
@@ -18,14 +19,16 @@
   <pre><%= mail[:headers].map{|n,v| "#{n}: #{v}" }.join("\n") %></pre>
 
   <h3>body</h3>
-  <div id="source" style="border: solid 1px #666; background:white; padding:2em;">
-    <% if mail[:headers].detect{|k,v| k=='Content-Type'}.last.start_with? 'text/plain' %>
-      <pre><%= mail[:body] %></pre>
-    <% else %>
-      <%= mail[:body] %>
-    <% end %>
-  </div>
-
+  <% mail[:parts].each do |part| %>
+    <%= part.content_type %>
+    <div class="part">
+      <% if part.content_type.start_with? 'text/plain' %>
+        <pre><%= part.body %></pre>
+      <% else %>
+        <%= part.body %>
+      <% end %>
+    </div>
+  <% end %>
 
 </body>
 </html>

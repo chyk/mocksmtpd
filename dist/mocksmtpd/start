@@ -1,0 +1,1 @@
+sudo RUBYLIB=../../lib ../../bin/mocksmtpd

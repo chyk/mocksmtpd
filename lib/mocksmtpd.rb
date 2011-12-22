@@ -249,20 +249,16 @@ class Mocksmtpd
   
     mail = Mail.new src
     date = mail.date
-    if mail.multipart?
-      body = mail.parts.detect{|p| p.content_type.start_with? 'text/html' }.body
-    else
-      body = mail.body
-    end
 
     result = {
-      :body => body,
       :headers => mail.header_fields.map{|field| [field.name, field.value] },
       :sender => sender,
       :recipients => recipients,
       :subject => mail.subject,
       :date => Time.parse(date.to_s)
     }
+    
+    result[:parts] = mail.multipart? ? mail.parts : [mail]
 
     format = "%Y%m%d%H%M%S"
     fname = date.strftime(format) + ".html"
