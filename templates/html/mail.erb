@@ -23,9 +23,9 @@
     <%= part.content_type %>
     <div class="part">
       <% if part.content_type.start_with? 'text/plain' %>
-        <pre><%= part.body %></pre>
+        <pre><%= part.body.decoded.force_encoding('UTF-8') %></pre>
       <% else %>
-        <%= part.body %>
+        <%= part.body.decoded.force_encoding('UTF-8') %>
       <% end %>
     </div>
   <% end %>
